@@ -4,31 +4,41 @@ import java.util.List;
 
 import main.java.org.bits.businessobject.ProductBO;
 import main.java.org.bits.service.ProductsWarrantyService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DashBoardProductsHandler {
-	
-	private ProductsWarrantyService productsWarrantyService;
 
-	public ProductsWarrantyService getProductsWarrantyService() {
-		return productsWarrantyService;
-	}
+    private static final Logger logger = LoggerFactory.getLogger(DashBoardProductsHandler.class);
 
-	public void setProductsWarrantyService(ProductsWarrantyService productsWarrantyService) {
-		this.productsWarrantyService = productsWarrantyService;
-	}
+    private ProductsWarrantyService productsWarrantyService;
 
-	public static void main(String[] args) {
-		System.out.println("DashBoardProductsHandler........");
-	}
-
-	public List<ProductBO> handleRequest(String requestBody) {
-		System.out.println("Input "+requestBody);
-		return retrieveProductsList();
+    public ProductsWarrantyService getProductsWarrantyService() {
+        return productsWarrantyService;
     }
-    
+
+    public void setProductsWarrantyService(ProductsWarrantyService productsWarrantyService) {
+        this.productsWarrantyService = productsWarrantyService;
+    }
+
+    public static void main(String[] args) {
+        System.out.println("DashBoardProductsHandler........");
+    }
+
+    public List<ProductBO> handleRequest(String requestBody) {
+        logger.info("DashBoardProductsHandler handleRequest Input " + requestBody);
+        System.out.println("Input " + requestBody);
+        return retrieveProductsList();
+    }
+
     public List<ProductBO> retrieveProductsList() {
+        logger.info("DashBoardProductsHandlerInside retrieve products list");
         System.out.println("Inside retrieve products list");
-		return productsWarrantyService.retrieveProductsList();
-	}
+        return productsWarrantyService.retrieveProductsList();
+    }
+
+    public void generateInventoryCount() {
+        productsWarrantyService.generateInventoryCount();
+    }
 
 }

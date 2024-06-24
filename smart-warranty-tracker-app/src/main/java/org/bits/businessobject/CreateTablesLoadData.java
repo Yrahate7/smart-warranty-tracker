@@ -10,7 +10,12 @@ import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.Table;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class CreateTablesLoadData {
+
+    private static final Logger logger = LoggerFactory.getLogger(CreateTablesLoadData.class);
 
     static AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard().build();
     static DynamoDB dynamoDB = new DynamoDB(client);
@@ -23,11 +28,14 @@ public class CreateTablesLoadData {
     public static void main(String[] args) throws Exception {
 
         try {
+            logger.info("Start- loadSample Products creation");
             loadSampleProducts(productCatalogTableName);
+            logger.info("End- loadSample Products creation");
         }
         catch (Exception e) {
             System.err.println("Program failed:");
             System.err.println(e.getMessage());
+            logger.warn("LoadSample Products Failed" + e.getMessage());
         }
         System.out.println("Success.");
     }
@@ -37,7 +45,7 @@ public class CreateTablesLoadData {
         Table table = dynamoDB.getTable(tableName);
 
         try {
-
+            logger.info("Start- Adding data to " + tableName);
             System.out.println("Adding data to " + tableName);
 
             Item item = new Item().withPrimaryKey("Id", 101).withString("Title", "Book 101 Title")
@@ -54,10 +62,18 @@ public class CreateTablesLoadData {
                 .withString("ProductCategory", "Bicycle");
             table.putItem(item);
 
+            item = new Item().withPrimaryKey("Id", 306).withString("Title", "30-Car-306")
+                    .withString("Description", "306 Tesla").withString("CarType", "Electric")
+                    .withString("Brand", "Tesla").withNumber("Price", 9000000)
+                    .withStringSet("Color", new HashSet<String>(Arrays.asList("Grey", "Black")))
+                    .withString("ProductCategory", "Car");
+            table.putItem(item);
+            logger.info("End- Adding data to " + tableName);
         }
         catch (Exception e) {
             System.err.println("Failed to create item in " + tableName);
             System.err.println(e.getMessage());
+            logger.warn("Failed to create item in " + tableName + ", " +e.getMessage());
         }
 
     }

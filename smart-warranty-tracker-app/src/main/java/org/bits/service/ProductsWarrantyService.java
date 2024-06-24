@@ -12,7 +12,11 @@ import main.java.org.bits.businessobject.ProductBO;
  *
  */
 public interface ProductsWarrantyService {
-	public List<ProductBO> retrieveProductsList();
-	public void saveProductInfo(ProductBO productBO);
-	public void uploadProductReceipt(ProductBO productBO);
+    public List<ProductBO> retrieveProductsList();
+
+    public void saveProductInfo(ProductBO productBO);
+
+    public void uploadProductReceipt(ProductBO productBO);
+
+    public void generateInventoryCount();
 }
